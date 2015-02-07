@@ -1,5 +1,6 @@
 import optparse
 from commands.authorize_command import AuthorizeCommand
+from commands.summarize_tags_command import SummarizeTagsCommand
 
 
 class PickPocket():
@@ -14,6 +15,9 @@ class PickPocket():
         command = AuthorizeCommand()
         command.execute(options)
 
+    def summarize_tags(self, options):
+        command = SummarizeTagsCommand()
+        command.execute(options)
 
 
 if __name__ == "__main__":
@@ -25,3 +29,5 @@ if __name__ == "__main__":
     pick_pocket = PickPocket()
     if options.command == "authorize":
         pick_pocket.authorize(options)
+    elif options.command == "summarize-tags":
+        pick_pocket.summarize_tags(options)

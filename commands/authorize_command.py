@@ -1,12 +1,13 @@
 import requests
 import sys
+from commands.common import Common
+
 
 class AuthorizeCommand():
 
     def __init__(self):
         self.oauth_code_request = "http://getpocket.com/v3/oauth/request"
         self.access_code_request = "http://getpocket.com/v3/oauth/authorize"
-        self.consumer_key = "37220-1449217af0d1fe41ecd0790b"
         self.web_redirect_url = "https://getpocket.com/connected_accounts"
         self.auth_request = "https://getpocket.com/auth/authorize?request_token={0}&redirect_uri=https://getpocket.com/connected_accounts"
 
@@ -29,7 +30,7 @@ class AuthorizeCommand():
     def __begin_authorization(self):
         print "Step 1: Sending authorization request ..."
         response = requests.post(self.oauth_code_request,
-                                 {'consumer_key': self.consumer_key, 'redirect_uri': self.web_redirect_url})
+                                 {'consumer_key': Common.consumer_key, 'redirect_uri': self.web_redirect_url})
         if response.status_code == 200:
             code = response.text.split("=")[1]
             print "Code: ", code
@@ -43,7 +44,7 @@ class AuthorizeCommand():
 
     def __complete_authorization(self, code):
         print "Step 3: Getting authorization code ..."
-        response = requests.post(self.access_code_request, {'consumer_key': self.consumer_key, 'code': code})
+        response = requests.post(self.access_code_request, {'consumer_key': Common.consumer_key, 'code': code})
         if response.status_code == 200:
             return self.__parse_access_code_response(response.text)
         else:
