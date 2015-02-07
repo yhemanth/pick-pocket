@@ -1,0 +1,4 @@
+1) Move to a sub-command model
+2) For a sub-command, check if all required options are passed.
+3) For authorize, if config file is already present, fail. Or better, provide an update option.
+4) Unit tests and TDD
