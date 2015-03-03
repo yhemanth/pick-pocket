@@ -1,6 +1,7 @@
 import requests
 import sys
 from commands.common import Common
+from pocket_api import handle_api_failure
 
 
 class AuthorizeCommand():
@@ -13,19 +14,11 @@ class AuthorizeCommand():
 
     def execute(self, options):
         (access_token, user_name) = self.__begin_authorization()
-        config = open(options.config_file, 'w')
+        config = open(options.auth_file, 'w')
         config.write("access_token:{0}\n".format(access_token))
         config.write("user_name:{0}\n".format(user_name))
         config.close()
-        print "pick-pocket is successfully authorized. Your access token is updated in ", options.config_file
-
-    @staticmethod
-    def __handle_auth_failure(message, response):
-        print message
-        print "Status code: ", response.status_code
-        print "Additional info, X-Error-Code: ", response.headers['X-Error-Code']
-        print "Additional info, X-Error: ", response.headers['X-Error']
-        sys.exit(-1)
+        print "pick-pocket is successfully authorized. Your access token is updated in ", options.auth_file
 
     def __begin_authorization(self):
         print "Step 1: Sending authorization request ..."
@@ -40,7 +33,7 @@ class AuthorizeCommand():
             if auth_done == 'Y':
                 return self.__complete_authorization(code)
         else:
-            self.__handle_auth_failure("Failed in authorization.", response)
+            handle_api_failure("Failed in authorization.", response)
 
     def __complete_authorization(self, code):
         print "Step 3: Getting authorization code ..."
@@ -48,7 +41,7 @@ class AuthorizeCommand():
         if response.status_code == 200:
             return self.__parse_access_code_response(response.text)
         else:
-            self.__handle_auth_failure("Failed retrieving token.", response)
+            handle_api_failure("Failed retrieving token.", response)
 
     def __parse_access_code_response(self, response_text):
         (access_token, user_name) = response_text.split('&')
