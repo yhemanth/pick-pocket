@@ -1,5 +1,6 @@
 from collections import OrderedDict
 from datetime import datetime, date
+import json
 import time
 import requests
 import config
@@ -14,7 +15,7 @@ def parse(response):
     items = response['list']
     if len(items) == 0:
         return [], 0
-    valid_items = map(lambda k: PocketItem(items[k]), filter(lambda k: items[k]['status'] == VALID, items.keys()))
+    valid_items = map(lambda i: items[i], filter(lambda k: items[k]['status'] == VALID, items.keys()))
     return valid_items, len(items)
 
 
@@ -37,7 +38,7 @@ class FetchCommand():
             items = response.json(object_pairs_hook=OrderedDict)
             (valid_items, item_count) = parse(items)
             for item in valid_items:
-                print item
+                print json.dumps(item)
             cursor += config.fetch_size
         else:
             handle_api_failure("Failed fetching items", response)
