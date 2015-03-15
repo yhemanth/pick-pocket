@@ -2,6 +2,7 @@ import optparse
 
 from commands.authorize_command import AuthorizeCommand
 from commands.fetch_command import FetchCommand
+from commands.report_command import ReportCommand
 
 
 class PickPocket():
@@ -20,6 +21,10 @@ class PickPocket():
         command = FetchCommand()
         command.execute(options)
 
+    def report(self, options):
+        command = ReportCommand()
+        command.execute(options)
+
 
 if __name__ == "__main__":
     option_parser = optparse.OptionParser(prog="pick-pocket",
@@ -27,9 +32,12 @@ if __name__ == "__main__":
     option_parser.add_option("-c", "--command", help="the command to run")
     option_parser.add_option("-A", "--auth_file", help="file to store/read authorization info from")
     option_parser.add_option("-f", "--from_date", help="date past which modified items are fetched, format=YYYY-mm-dd")
+    option_parser.add_option("-F", "--pocket_items_file", help="file where pocket items are stored")
     (options, arguments) = option_parser.parse_args()
     pick_pocket = PickPocket()
     if options.command == "authorize":
         pick_pocket.authorize(options)
     elif options.command == "fetch":
         pick_pocket.fetch(options)
+    elif options.command == "report":
+        pick_pocket.report(options)
