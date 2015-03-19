@@ -1,0 +1,113 @@
+2014 review|theme 
+acid|concept
+algorithms|theme 
+altiscale|company
+architecture|theme
+archival|theme
+avro|project
+benchmarks|theme 
+big data architecture|theme 
+bloomberg|company
+bluedata|company
+calcite|project
+camus|project
+cap|concept
+case-study|theme
+cassandra|project
+cerner|company
+cloudera|company
+configuration|theme
+confluent|company
+coprocessors|concept
+cost-based optimizers|concept 
+data ingestion|theme
+data lake|concept
+data pipelines|concept
+data protection|theme
+data science|theme
+data warehousing|theme
+databricks|company
+dataflow|project
+dataframes|concept
+db|theme
+decision trees|concept 
+deep learning|concept
+design|theme
+distributed ml|theme 
+ebay|company
+emr|project
+encryption|theme
+ensemble decision tree|concept 
+etsy|company
+f1|project
+falcon|project 
+fault tolerance|theme 
+feature engineering|theme
+forex trading|theme
+foundationdb|project
+google|company
+graphflow|project
+h20|company
+hadoop|project
+haversine|concept
+hbase|project
+hdfs|project
+high availability|theme 
+hive|project
+hortonworks|company
+hpc|theme
+impala|project
+inmobi|company
+intel|company
+ipython notebooks|project 
+jkreps|person
+kafka|project
+lambda architecture|concept 
+lens|project
+life|theme
+linkedin|company
+luigi|project
+machine learning|theme 
+mapreduce|project
+memsql|project
+mesos|project
+mirroring|theme
+myriad|project
+nifi|project
+open source|theme
+operability|theme
+optimization|theme
+pandas|project
+parquet|project
+parsely|project
+paypal|company
+performance monitoring|theme 
+pinterest|company
+pnuts|project
+programming|theme
+pulsar|project
+r-language|project
+ranger|project
+scheduling|theme
+security|theme
+sentry|project
+shell scripting|theme 
+shuffle|concept
+slider|project
+spark|project
+spark sql|project
+spark streaming|project
+sparkml|project
+spotify|company
+storm|project
+stream processing|theme 
+tachyon|project
+teaching|theme
+tez|project
+tiered storage|theme 
+time-series|theme
+troubleshooting|theme
+twitter|company
+yahoo|company
+yarn|project
+zookeeper|project
