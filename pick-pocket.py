@@ -34,6 +34,7 @@ if __name__ == "__main__":
     option_parser.add_option("-f", "--from_date", help="date past which modified items are fetched, format=YYYY-mm-dd")
     option_parser.add_option("-D", "--pocket_items_directory", help="directory where pocket items are stored")
     option_parser.add_option("-O", "--overwrite", help="overwrite existing pocket items", action='store_true')
+    option_parser.add_option("-F", "--pocket_items_file", help="file where pocket items are stored")
     (options, arguments) = option_parser.parse_args()
     pick_pocket = PickPocket()
     if options.command == "authorize":
