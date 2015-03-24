@@ -1,4 +1,4 @@
-import optparse
+import argparse
 
 from commands.authorize_command import AuthorizeCommand
 from commands.fetch_command import FetchCommand
@@ -27,19 +27,31 @@ class PickPocket():
 
 
 if __name__ == "__main__":
-    option_parser = optparse.OptionParser(prog="pick-pocket",
-                                          description="A command line tool to query content in your Pocket account.")
-    option_parser.add_option("-c", "--command", help="the command to run")
-    option_parser.add_option("-A", "--auth_file", help="file to store/read authorization info from")
-    option_parser.add_option("-f", "--from_date", help="date past which modified items are fetched, format=YYYY-mm-dd")
-    option_parser.add_option("-D", "--pocket_items_directory", help="directory where pocket items are stored")
-    option_parser.add_option("-O", "--overwrite", help="overwrite existing pocket items", action='store_true')
-    option_parser.add_option("-F", "--pocket_items_file", help="file where pocket items are stored")
-    (options, arguments) = option_parser.parse_args()
+    argument_parser = argparse.ArgumentParser(prog="pick-pocket",
+                                              description="A command line tool to query content in your Pocket account.")
+    subparsers = argument_parser.add_subparsers(dest='command')
+
+    authorize_arg_parser = subparsers.add_parser('authorize', help='Authorize PickPocket application')
+    authorize_arg_parser.add_argument("-A", "--auth_file", help="file to store/read authorization info from", required=True)
+
+    fetch_arg_parser = subparsers.add_parser('fetch', help='fetch Pocket items')
+    fetch_arg_parser.add_argument("-A", "--auth_file", help="file to store/read authorization info from", required=True)
+    fetch_arg_parser.add_argument("-f", "--from_date",
+                                  help="date past which modified items are fetched, format=YYYY-mm-dd", required=True)
+    fetch_arg_parser.add_argument("-D", "--pocket_items_directory", help="directory where pocket items are stored", required=True)
+    fetch_arg_parser.add_argument("-O", "--overwrite", help="overwrite existing pocket items", action='store_true')
+
+    report_arg_parser = subparsers.add_parser('report', help='create a report on saved Pocket items')
+    report_arg_parser.add_argument("-F", "--pocket_items_file", help="file where pocket items are stored", required=True)
+
+    options = argument_parser.parse_args()
+    print options
     pick_pocket = PickPocket()
-    if options.command == "authorize":
+    if options.command == 'authorize':
         pick_pocket.authorize(options)
-    elif options.command == "fetch":
+    elif options.command == 'fetch':
         pick_pocket.fetch(options)
-    elif options.command == "report":
+    elif options.command == 'report':
         pick_pocket.report(options)
+    else:
+        argument_parser.print_help()
