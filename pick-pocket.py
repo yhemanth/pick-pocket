@@ -42,7 +42,7 @@ if __name__ == "__main__":
     fetch_arg_parser.add_argument("-O", "--overwrite", help="overwrite existing pocket items", action='store_true')
 
     report_arg_parser = subparsers.add_parser('report', help='create a report on saved Pocket items')
-    report_arg_parser.add_argument("-F", "--pocket_items_file", help="file where pocket items are stored", required=True)
+    report_arg_parser.add_argument("-P", "--pocket_items_path", help="file/directory where pocket items are stored", required=True)
 
     options = argument_parser.parse_args()
     print options
