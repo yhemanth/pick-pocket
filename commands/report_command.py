@@ -2,6 +2,7 @@ import json
 import collections
 import os
 
+from pocket_tags_types import tag_types
 
 class Report():
     def __init__(self):
@@ -27,7 +28,9 @@ def handle(pocket_items_file):
     report.tagged_items = len(tagged_items)
     tags = list()
     map(lambda item: tags.extend(item['tags']), tagged_items)
-    report.count_by_tags = collections.Counter(tags)
+    decorated_tags = [tag_types[tag]+":"+tag for tag in tags if tag_types.has_key(tag)]
+    decorated_tags.extend(["unknown:"+tag for tag in tags if not tag_types.has_key(tag)])
+    report.count_by_tags = collections.Counter(decorated_tags)
     report.my_print()
 
 
