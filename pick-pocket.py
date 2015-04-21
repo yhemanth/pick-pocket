@@ -43,9 +43,10 @@ if __name__ == "__main__":
 
     report_arg_parser = subparsers.add_parser('report', help='create a report on saved Pocket items')
     report_arg_parser.add_argument("-P", "--pocket_items_path", help="file/directory where pocket items are stored", required=True)
+    report_arg_parser.add_argument("-T", "--time_series", help="report counts as time series", action='store_true')
 
     options = argument_parser.parse_args()
-    print options
+
     pick_pocket = PickPocket()
     if options.command == 'authorize':
         pick_pocket.authorize(options)
