@@ -57,7 +57,7 @@ class TimeSeriesReport():
             self.time_series_map[tag] = time_series
 
     def print_report(self):
-        for key in self.time_series_map.keys():
+        for key in sorted(self.time_series_map.keys()):
             print self.time_series_map[key]
 
 
