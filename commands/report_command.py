@@ -1,9 +1,7 @@
-import json
 import collections
 import os
-from commands.pocket_items_parser import PocketItemsParser
 
-from pocket_tags_types import tag_types
+from commands.pocket_items_parser import PocketItemsParser
 
 
 class Report():
@@ -48,26 +46,28 @@ class TimeSeries():
 
 class TimeSeriesReport():
     def __init__(self):
-        self.time_series_map = dict()
+        self.time_series_groups_map = dict()
 
     def handle(self, pocket_items_file):
         parser = PocketItemsParser(pocket_items_file)
         time_stamp = parser.time_stamp()
         tags = parser.extract_tags()
-        for tag in tags:
-            time_series = self.time_series_map.get(tag) if self.time_series_map.has_key(tag) else TimeSeries(tag)
-            time_series.incr(time_stamp)
-            self.time_series_map[tag] = time_series
+        for (tag_group, tags) in tags.items():
+            time_series_map = self.time_series_groups_map[tag_group] if self.time_series_groups_map.has_key(tag_group) else dict()
+            for tag in tags:
+                time_series = time_series_map[tag] if time_series_map.has_key(tag) else TimeSeries(tag)
+                time_series.incr(time_stamp)
+                time_series_map[tag] = time_series
+            self.time_series_groups_map[tag_group] = time_series_map
 
     def print_report(self):
-        tag_types = sorted(set(map(lambda time_series_name: time_series_name.split(":")[0], self.time_series_map.keys())))
-        for tag_type in tag_types:
+        tag_groups = sorted(self.time_series_groups_map.keys())
+        for tag_type in tag_groups:
             print tag_type+":"
-            tag_items = filter(lambda time_series_name: time_series_name.split(":")[0] == tag_type, self.time_series_map.keys())
-            time_series_list = [self.time_series_map[key] for key in tag_items]
-            time_series_with_counts = map(lambda time_series: (time_series.size(), time_series), time_series_list)
+            time_series_map = self.time_series_groups_map[tag_type]
+            time_series_with_counts = map(lambda ts: (ts.size(), ts), time_series_map.values())
             for (count, time_series) in sorted(time_series_with_counts, reverse=True):
-                print "\t"+":".join(str(time_series).split(":")[1:])
+                print "\t"+str(time_series)
 
 
 class ReportCommand(object):
