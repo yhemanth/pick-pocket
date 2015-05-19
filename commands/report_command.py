@@ -33,6 +33,9 @@ class TimeSeries():
         self.name = name
         self.values = dict()
 
+    def size(self):
+        return len(self.values)
+
     def incr(self, time_stamp):
         count = self.values.get(time_stamp) if self.values.has_key(time_stamp) else 0
         self.values[time_stamp] = count+1
@@ -57,8 +60,14 @@ class TimeSeriesReport():
             self.time_series_map[tag] = time_series
 
     def print_report(self):
-        for key in sorted(self.time_series_map.keys()):
-            print self.time_series_map[key]
+        tag_types = sorted(set(map(lambda time_series_name: time_series_name.split(":")[0], self.time_series_map.keys())))
+        for tag_type in tag_types:
+            print tag_type+":"
+            tag_items = filter(lambda time_series_name: time_series_name.split(":")[0] == tag_type, self.time_series_map.keys())
+            time_series_list = [self.time_series_map[key] for key in tag_items]
+            time_series_with_counts = map(lambda time_series: (time_series.size(), time_series), time_series_list)
+            for (count, time_series) in sorted(time_series_with_counts, reverse=True):
+                print "\t"+":".join(str(time_series).split(":")[1:])
 
 
 class ReportCommand(object):
